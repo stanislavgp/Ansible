@@ -1,0 +1,5 @@
+---
+dependencies:
+  - { role: patch } 
+  - { role: ufw } 
+  - { role: reboot} 

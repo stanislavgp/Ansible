@@ -1,0 +1,31 @@
+# test_task.yml
+---
+- hosts: all
+  user: ubuntu
+  sudo: yes
+
+  tasks:
+  - name: Check if there are packages available to be installed/upgraded
+    command: /usr/lib/update-notifier/apt-check --package-names
+    register: packages
+
+  - name: Upgrade all packages to the latest version
+    apt: update_cache=yes upgrade=dist
+    when: packages.stderr != ""
+  
+  - name: Ports confg
+    command: ufw allow 22 
+  
+  - name: File creation
+    command: touch /opt/uptime
+
+  - wait_for: path=/opt/uptime
+
+  - name: Check if a reboot is required
+    register: file
+    stat: path=/var/run/reboot-required get_md5=no
+
+  - name: Reboot the server
+    command: shutdown -r 1
+    when: file.stat.exists == true
+

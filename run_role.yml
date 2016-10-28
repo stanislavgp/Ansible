@@ -1,0 +1,11 @@
+---
+- hosts: all
+  user: ubuntu
+  sudo: yes
+  vars:
+    result: 0
+  roles:
+    - patch
+    - ufw
+    - reboot
+    - uptime

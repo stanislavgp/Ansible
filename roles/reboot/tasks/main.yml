@@ -1,0 +1,8 @@
+---
+    - name: Check if a reboot is required
+      register: file
+      stat: path=/var/run/reboot-required get_md5=no
+
+    - name: Reboot the server
+      command: shutdown -r 1
+      when: file.stat.exists == true

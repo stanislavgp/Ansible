@@ -1,0 +1,4 @@
+---
+    - ufw: state=enabled
+    - ufw: rule=allow port=22
+
